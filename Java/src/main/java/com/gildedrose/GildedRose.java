@@ -1,6 +1,6 @@
 package com.gildedrose;
 
-class  GildedRose {
+class GildedRose {
 
     public static final String AGED_BRIE = "Aged Brie";
     public static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
@@ -28,28 +28,32 @@ class  GildedRose {
     }
 
     private void updateQualityBeforeSellIn(Item item) {
-        if (!item.name.equals(AGED_BRIE)
-                && !item.name.equals(BACKSTAGE_PASS)) {
-            if (item.quality > 0) {
-                if (!item.name.equals(SULFURAS)) {
-                    item.quality = item.quality - 1;
-                }
-            }
+        if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
+            updateBrieOrBackstage(item);
         } else {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
+            if (item.name.equals(SULFURAS)) {
+                return;
+            }
+            if (item.quality > 0) {
+                item.quality = item.quality - 1;
+            }
+        }
+    }
 
-                if (item.name.equals(BACKSTAGE_PASS)) {
-                    if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
-                        }
+    private void updateBrieOrBackstage(Item item) {
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
+
+            if (item.name.equals(BACKSTAGE_PASS)) {
+                if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
                     }
+                }
 
-                    if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
-                        }
+                if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
                     }
                 }
             }
