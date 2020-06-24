@@ -28,35 +28,30 @@ class GildedRose {
     }
 
     private void updateQualityBeforeSellIn(Item item) {
-        if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
-            updateBrieOrBackstage(item);
-        } else {
-            if (item.name.equals(SULFURAS)) {
-                return;
-            }
-            if (item.quality > 0) {
-                item.quality = item.quality - 1;
-            }
-        }
-    }
+        if (item.name.equals(AGED_BRIE)) {
+            increaseQualityByOne(item);
+        } else if (item.name.equals(BACKSTAGE_PASS)) {
+            increaseQualityByOne(item);
 
-    private void updateBrieOrBackstage(Item item) {
-        IncreaseQualityByOne(item);
-        if (item.name.equals(BACKSTAGE_PASS)) {
             if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
-                IncreaseQualityByOne(item);
+                increaseQualityByOne(item);
             }
 
             if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
-                IncreaseQualityByOne(item);
+                increaseQualityByOne(item);
             }
-        }
-
+        } else if (item.name.equals(SULFURAS)) {
+        } else decreaseQualityByOne(item);
     }
 
-    private void IncreaseQualityByOne(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
+    private void updateQualityAfterSellIn(Item item) {
+        if (item.name.equals(AGED_BRIE)) {
+            increaseQualityByOne(item);
+        } else if (item.name.equals(BACKSTAGE_PASS)) {
+            item.quality = 0;
+        } else if (item.name.equals(SULFURAS)) {
+        } else {
+            decreaseQualityByOne(item);
         }
     }
 
@@ -64,25 +59,21 @@ class GildedRose {
         return item.sellIn < 0;
     }
 
-    private void updateQualityAfterSellIn(Item item) {
-        if (!item.name.equals(AGED_BRIE)) {
-            if (!item.name.equals(BACKSTAGE_PASS)) {
-                if (item.quality > 0) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            } else {
-                item.quality = item.quality - item.quality;
-            }
-        } else {
-            IncreaseQualityByOne(item);
-        }
-    }
-
     private void decreaseSellIn(Item item) {
         if (!item.name.equals(SULFURAS)) {
             item.sellIn = item.sellIn - 1;
+        }
+    }
+
+    private void increaseQualityByOne(Item item) {
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
+        }
+    }
+
+    private void decreaseQualityByOne(Item item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1;
         }
     }
 }
