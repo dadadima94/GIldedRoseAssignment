@@ -21,13 +21,13 @@ class  GildedRose {
                     items[i].quality = items[i].quality + 1;
 
                     if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
+                        if (items[i].sellIn <= 10) {  // changed to leq
                             if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 2;  // this line is not covered yet
+                                items[i].quality = items[i].quality + 1;  // with quality + 2 no test failed, hence this line is not covered yet
                             }
                         }
 
-                        if (items[i].sellIn < 6) {
+                        if (items[i].sellIn <= 5) { // changed to leq
                             if (items[i].quality < 50) {
                                 items[i].quality = items[i].quality + 1;
                             }
