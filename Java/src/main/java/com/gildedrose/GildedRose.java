@@ -41,22 +41,22 @@ class GildedRose {
     }
 
     private void updateBrieOrBackstage(Item item) {
+        IncreaseQualityByOne(item);
+        if (item.name.equals(BACKSTAGE_PASS)) {
+            if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
+                IncreaseQualityByOne(item);
+            }
+
+            if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
+                IncreaseQualityByOne(item);
+            }
+        }
+
+    }
+
+    private void IncreaseQualityByOne(Item item) {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
-
-            if (item.name.equals(BACKSTAGE_PASS)) {
-                if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
-                    }
-                }
-
-                if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
-                    }
-                }
-            }
         }
     }
 
@@ -76,9 +76,7 @@ class GildedRose {
                 item.quality = item.quality - item.quality;
             }
         } else {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
-            }
+            IncreaseQualityByOne(item);
         }
     }
 
