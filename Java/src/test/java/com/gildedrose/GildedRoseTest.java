@@ -22,7 +22,7 @@ class GildedRoseTest {
          */
         CombinationApprovals.verifyAllCombinations(this::newItemAndUpdateQuality,
                 new String[]{"Standard Item", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"},
-                new Integer[]{-1, 0, 10},
+                new Integer[]{-1, 0, 11},
                 new Integer[]{0, 1, 49, 50});
     }
 
