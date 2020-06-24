@@ -22,6 +22,13 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.approvaltests</groupId>
+            <artifactId>approvaltests</artifactId>
+            <version>8.0.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
