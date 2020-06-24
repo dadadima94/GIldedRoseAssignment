@@ -25,15 +25,15 @@ class  GildedRose {
                     items[i].quality = items[i].quality + 1;
 
                     if (items[i].name.equals(BACKSTAGE_PASS)) {
-                        if (items[i].sellIn <= 10) {  // changed to leq
+                        if (items[i].sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
                             if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;  // with quality + 2 no test failed, hence this line is not covered yet
+                                items[i].quality = items[i].quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
                             }
                         }
 
-                        if (items[i].sellIn <= 5) { // changed to leq
+                        if (items[i].sellIn <= 5) { // Backstage SellIn Threshold changed to leq
                             if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
+                                items[i].quality = items[i].quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
                             }
                         }
                     }
