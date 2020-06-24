@@ -12,55 +12,75 @@ class  GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals(AGED_BRIE)
-                    && !items[i].name.equals(BACKSTAGE_PASS)) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals(SULFURAS)) {
-                        items[i].quality = items[i].quality - 1;
+        for (Item item : items) {
+            updateSingleItem(item);
+        }
+    }
+
+    private void updateSingleItem(Item item) {
+        updateQualityBeforeSellIn(item);
+
+        decreaseSellIn(item);
+
+        if (hasPassedSellIn(item)) {
+            updateQualityAfterSellIn(item);
+        }
+    }
+
+    private void updateQualityBeforeSellIn(Item item) {
+        if (!item.name.equals(AGED_BRIE)
+                && !item.name.equals(BACKSTAGE_PASS)) {
+            if (item.quality > 0) {
+                if (!item.name.equals(SULFURAS)) {
+                    item.quality = item.quality - 1;
+                }
+            }
+        } else {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+
+                if (item.name.equals(BACKSTAGE_PASS)) {
+                    if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
+                        }
+                    }
+
+                    if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean hasPassedSellIn(Item item) {
+        return item.sellIn < 0;
+    }
+
+    private void updateQualityAfterSellIn(Item item) {
+        if (!item.name.equals(AGED_BRIE)) {
+            if (!item.name.equals(BACKSTAGE_PASS)) {
+                if (item.quality > 0) {
+                    if (!item.name.equals(SULFURAS)) {
+                        item.quality = item.quality - 1;
                     }
                 }
             } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-
-                    if (items[i].name.equals(BACKSTAGE_PASS)) {
-                        if (items[i].sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;  // now a mutation here is covered, was due to Backstage SellIn Thresholds
-                            }
-                        }
-
-                        if (items[i].sellIn <= 5) { // Backstage SellIn Threshold changed to leq
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1; // now mutation is covered here as well, was due to Backstage SellIn Thresholds
-                            }
-                        }
-                    }
-                }
+                item.quality = item.quality - item.quality;
             }
-
-            if (!items[i].name.equals(SULFURAS)) {
-                items[i].sellIn = items[i].sellIn - 1;
+        } else {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
             }
+        }
+    }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals(AGED_BRIE)) {
-                    if (!items[i].name.equals(BACKSTAGE_PASS)) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals(SULFURAS)) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
-            }
+    private void decreaseSellIn(Item item) {
+        if (!item.name.equals(SULFURAS)) {
+            item.sellIn = item.sellIn - 1;
         }
     }
 }
