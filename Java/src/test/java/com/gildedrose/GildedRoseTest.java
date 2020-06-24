@@ -16,7 +16,7 @@ class GildedRoseTest {
          *  - SellIn Integers:  {-1, 0, 10},
          *  - Quality Integers:  {0, 1, 49, 50}
          *
-         *  Elements found with Mutation Testing: https://en.wikipedia.org/wiki/Code_coverage
+         *  Elements found with Mutation Testing: https://en.wikipedia.org/wiki/Mutation_testing
          *  - SellIn Integers: {3, 8}   --> line 30 and 36 of the GildedRose Assignment
          *
          */
