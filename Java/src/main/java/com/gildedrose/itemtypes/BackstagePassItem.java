@@ -2,9 +2,12 @@ package com.gildedrose.itemtypes;
 
 import com.gildedrose.Item;
 
+/**
+ * This chlid class overrides two methods of the mother for the Backstage tickets requirements
+ */
 public class BackstagePassItem extends ItemType {
 
-    protected void updateQualityBeforeSellIn(Item item) {
+    protected void updateQuality(Item item) {
         increaseQualityByOne(item);
 
         if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq

@@ -4,6 +4,7 @@ import com.gildedrose.itemtypes.*;
 
 public class GildedRose {
 
+    // Constants extraction
     public static final String AGED_BRIE = "Aged Brie";
     public static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
@@ -14,12 +15,29 @@ public class GildedRose {
         this.items = items;
     }
 
+    /**
+     * The updateQuality() method has been simplified:
+     * - regular for replaced with enhanced for a-la Python;
+     * - the item type is "assigned" looking at the item's name
+     * - the item is updated
+     *
+     */
+
     public void updateQuality() {
         for (Item item : items) {
             ItemType itemType = getItemType(item);
             itemType.updateSingleItem(item, this);
         }
     }
+
+    /**
+     * Since it is forbidden to alter the ItemType and add an itemType attribute there,
+     * I have generated this method to return a specific class of item based on the item name.
+     * These classes are children classes of the ItemType class.
+     *
+     * @param item
+     * @return
+     */
 
     private ItemType getItemType(Item item) {
         if (item.name.equals(SULFURAS)) {

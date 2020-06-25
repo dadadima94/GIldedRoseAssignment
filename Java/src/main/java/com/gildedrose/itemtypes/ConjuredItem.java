@@ -2,8 +2,11 @@ package com.gildedrose.itemtypes;
 
 import com.gildedrose.Item;
 
+/**
+ * Conjured Class for new Conjured Category. 
+ */
 public class ConjuredItem extends ItemType {
-    protected void updateQualityBeforeSellIn(Item item) {
+    protected void updateQuality(Item item) {
         decreaseQualityByOne(item);
         decreaseQualityByOne(item);
     }
