@@ -4,10 +4,6 @@ import com.gildedrose.Item;
 
 public class BackstagePassItem extends ItemType {
 
-    protected void updateQualityAfterSellIn(Item item) {
-        item.quality = 0;
-    }
-
     protected void updateQualityBeforeSellIn(Item item) {
         increaseQualityByOne(item);
 
@@ -19,5 +15,9 @@ public class BackstagePassItem extends ItemType {
             increaseQualityByOne(item);
         }
 
+    }
+
+    protected void updateQualityAfterSellIn(Item item) {
+        item.quality = 0;
     }
 }
