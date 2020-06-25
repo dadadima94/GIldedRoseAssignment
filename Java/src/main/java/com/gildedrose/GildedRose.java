@@ -14,28 +14,93 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             ItemType itemType = getItemType(item);
-            updateSingleItem(item, itemType);
+            itemType.updateSingleItem(item, this);
         }
     }
 
     private ItemType getItemType(Item item) {
+        if (item.name.equals(SULFURAS)) {
+            return new LegendaryItem();
+        }
+        if (item.name.equals(AGED_BRIE)) {
+            return new AgedBrie();
+        }
+        if (item.name.equals(BACKSTAGE_PASS)) {
+            return new BackstagePass();
+        }
         return new ItemType();
     }
 
-    private void updateSingleItem(Item item, ItemType itemType) {
-        updateQualityBeforeSellIn(item, itemType);
+    private boolean hasPassedSellIn(Item item) {
+        return item.sellIn < 0;
+    }
 
-        decreaseSellIn(item, itemType);
+    private class ItemType {
 
-        if (hasPassedSellIn(item)) {
-            updateQualityAfterSellIn(item, itemType);
+        protected void decreaseQualityByOne(Item item) {
+            if (item.quality > 0) {
+                item.quality = item.quality - 1;
+            }
+        }
+
+        protected void increaseQualityByOne(Item item) {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+            }
+        }
+
+        protected void updateQualityAfterSellIn(Item item) {
+            decreaseQualityByOne(item);
+        }
+
+        protected void decreaseSellIn(Item item) {
+            item.sellIn = item.sellIn - 1;
+        }
+
+        protected void updateQualityBeforeSellIn(Item item) {
+            decreaseQualityByOne(item);
+        }
+
+        protected void updateSingleItem(Item item, GildedRose gildedRose) {
+            updateQualityBeforeSellIn(item);
+
+            decreaseSellIn(item);
+
+            if (gildedRose.hasPassedSellIn(item)) {
+                updateQualityAfterSellIn(item);
+            }
         }
     }
 
-    private void updateQualityBeforeSellIn(Item item, ItemType itemType) {
-        if (item.name.equals(AGED_BRIE)) {
+    private class LegendaryItem extends ItemType {
+        protected void updateQualityAfterSellIn(Item item) {
+        }
+
+        protected void decreaseSellIn(Item item) {
+        }
+
+        protected void updateQualityBeforeSellIn(Item item) {
+        }
+    }
+
+    private class AgedBrie extends ItemType {
+        protected void updateQualityAfterSellIn(Item item) {
             increaseQualityByOne(item);
-        } else if (item.name.equals(BACKSTAGE_PASS)) {
+        }
+
+        protected void updateQualityBeforeSellIn(Item item) {
+            increaseQualityByOne(item);
+        }
+
+    }
+
+    private class BackstagePass extends ItemType {
+
+        protected void updateQualityAfterSellIn(Item item) {
+            item.quality = 0;
+        }
+
+        protected void updateQualityBeforeSellIn(Item item) {
             increaseQualityByOne(item);
 
             if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
@@ -45,43 +110,7 @@ class GildedRose {
             if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
                 increaseQualityByOne(item);
             }
-        } else if (item.name.equals(SULFURAS)) {
-        } else decreaseQualityByOne(item);
-    }
 
-    private void updateQualityAfterSellIn(Item item, ItemType itemType) {
-        if (item.name.equals(AGED_BRIE)) {
-            increaseQualityByOne(item);
-        } else if (item.name.equals(BACKSTAGE_PASS)) {
-            item.quality = 0;
-        } else if (item.name.equals(SULFURAS)) {
-        } else {
-            decreaseQualityByOne(item);
         }
-    }
-
-    private boolean hasPassedSellIn(Item item) {
-        return item.sellIn < 0;
-    }
-
-    private void decreaseSellIn(Item item, ItemType itemType) {
-        if (!item.name.equals(SULFURAS)) {
-            item.sellIn = item.sellIn - 1;
-        }
-    }
-
-    private void increaseQualityByOne(Item item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
-        }
-    }
-
-    private void decreaseQualityByOne(Item item) {
-        if (item.quality > 0) {
-            item.quality = item.quality - 1;
-        }
-    }
-
-    private class ItemType {
     }
 }
