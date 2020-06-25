@@ -13,23 +13,26 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            ItemType itemType = new ItemType(this);
-
-            updateSingleItem(item);
+            ItemType itemType = getItemType(item);
+            updateSingleItem(item, itemType);
         }
     }
 
-    private void updateSingleItem(Item item) {
-        updateQualityBeforeSellIn(item);
+    private ItemType getItemType(Item item) {
+        return new ItemType();
+    }
 
-        decreaseSellIn(item);
+    private void updateSingleItem(Item item, ItemType itemType) {
+        updateQualityBeforeSellIn(item, itemType);
+
+        decreaseSellIn(item, itemType);
 
         if (hasPassedSellIn(item)) {
-            updateQualityAfterSellIn(item);
+            updateQualityAfterSellIn(item, itemType);
         }
     }
 
-    private void updateQualityBeforeSellIn(Item item) {
+    private void updateQualityBeforeSellIn(Item item, ItemType itemType) {
         if (item.name.equals(AGED_BRIE)) {
             increaseQualityByOne(item);
         } else if (item.name.equals(BACKSTAGE_PASS)) {
@@ -46,7 +49,7 @@ class GildedRose {
         } else decreaseQualityByOne(item);
     }
 
-    private void updateQualityAfterSellIn(Item item) {
+    private void updateQualityAfterSellIn(Item item, ItemType itemType) {
         if (item.name.equals(AGED_BRIE)) {
             increaseQualityByOne(item);
         } else if (item.name.equals(BACKSTAGE_PASS)) {
@@ -61,7 +64,7 @@ class GildedRose {
         return item.sellIn < 0;
     }
 
-    private void decreaseSellIn(Item item) {
+    private void decreaseSellIn(Item item, ItemType itemType) {
         if (!item.name.equals(SULFURAS)) {
             item.sellIn = item.sellIn - 1;
         }
@@ -79,4 +82,6 @@ class GildedRose {
         }
     }
 
+    private class ItemType {
+    }
 }
