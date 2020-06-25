@@ -13,6 +13,8 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
+            ItemType itemType = new ItemType(this);
+
             updateSingleItem(item);
         }
     }
@@ -28,42 +30,30 @@ class GildedRose {
     }
 
     private void updateQualityBeforeSellIn(Item item) {
-        switch (item.name) {
-            case AGED_BRIE:
-                increaseQualityByOne(item);
-                break;
-            case BACKSTAGE_PASS:
-                increaseQualityByOne(item);
+        if (item.name.equals(AGED_BRIE)) {
+            increaseQualityByOne(item);
+        } else if (item.name.equals(BACKSTAGE_PASS)) {
+            increaseQualityByOne(item);
 
-                if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
-                    increaseQualityByOne(item);
-                }
+            if (item.sellIn <= 10) {  // Backstage SellIn Threshold changed to leq
+                increaseQualityByOne(item);
+            }
 
-                if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
-                    increaseQualityByOne(item);
-                }
-                break;
-            case SULFURAS:
-                break;
-            default:
-                decreaseQualityByOne(item);
-                break;
-        }
+            if (item.sellIn <= 5) { // Backstage SellIn Threshold changed to leq
+                increaseQualityByOne(item);
+            }
+        } else if (item.name.equals(SULFURAS)) {
+        } else decreaseQualityByOne(item);
     }
 
     private void updateQualityAfterSellIn(Item item) {
-        switch (item.name) {
-            case AGED_BRIE:
-                increaseQualityByOne(item);
-                break;
-            case BACKSTAGE_PASS:
-                item.quality = 0;
-                break;
-            case SULFURAS:
-                break;
-            default:
-                decreaseQualityByOne(item);
-                break;
+        if (item.name.equals(AGED_BRIE)) {
+            increaseQualityByOne(item);
+        } else if (item.name.equals(BACKSTAGE_PASS)) {
+            item.quality = 0;
+        } else if (item.name.equals(SULFURAS)) {
+        } else {
+            decreaseQualityByOne(item);
         }
     }
 
@@ -88,4 +78,5 @@ class GildedRose {
             item.quality = item.quality - 1;
         }
     }
+
 }
